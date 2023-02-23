@@ -1,0 +1,33 @@
+{% extends "school/base.html" %}
+{% load static %}
+
+{% block title %}Список учеников и преподавателей{% endblock %}
+{% block content %}
+<div class="row">
+
+  <ul>
+  <h4>Ученики</h4>
+  {% for student in student_list %}
+      <li>{{ student.name }} / {{ student.group }}<br>Преподаватели:
+          {% for teacher in student.teachers.all %}    {# model_class . field_ManyToManyField (in this class) #}
+                <br>{{ teacher.name }} / {{ teacher.subject }}
+          {% endfor %}
+      </li><br>
+  {% endfor %}
+  </ul>
+
+  <hr>
+
+   <ul>
+   <h4>Преподаватели</h4>
+   {% for teacher in teacher_list %}
+       <li>{{ teacher.name }} / {{ teacher.subject }}<br>Ученики:
+           {% for student in teacher.students.all %}   {# model_class . related_name (in another class) #}
+                <br>{{ student.name }} / {{ student.group }}
+           {% endfor %}
+       </li><br>
+   {% endfor %}
+  </ul>
+
+</div>
+{% endblock %}
